@@ -20,7 +20,9 @@
 	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
+	   - Se ejecutan los tres hilos al tiempo, el orden de impresión no se puede determinar.
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+		- Se ejecuta el primer hilo, luego el segundo y luego el tercero.
 
 **Parte II - Ejercicio Black List Search**
 

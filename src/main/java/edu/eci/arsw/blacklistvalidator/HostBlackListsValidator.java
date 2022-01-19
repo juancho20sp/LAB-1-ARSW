@@ -8,8 +8,7 @@ package main.java.edu.eci.arsw.blacklistvalidator;
 import main.java.edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 import main.java.edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,8 +39,25 @@ public class HostBlackListsValidator {
         HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
         
         int checkedListsCount=0;
+
+        int totalThreads = 8;
+        int[] startValues = new int[totalThreads];
+        int[] endValues = new int[totalThreads];
+
+        for(int i = 0; i < totalThreads; i++){
+            startValues[i] = i * (skds.getRegisteredServersCount() / totalThreads);
+            endValues[i] = startValues[i] + (skds.getRegisteredServersCount() / totalThreads) - 1;
+        }
+
+        System.out.println("Start values:");
+        System.out.println(Arrays.toString(startValues));
+        System.out.println("End values:");
+        System.out.println(Arrays.toString(endValues));
+
+        System.out.println("Total servers: " + skds.getRegisteredServersCount());
+        return null;
         
-        for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
+        /*for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
             checkedListsCount++;
             
             if (skds.isInBlackListServer(i, ipaddress)){
@@ -61,7 +77,7 @@ public class HostBlackListsValidator {
         
         LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
         
-        return blackListOcurrences;
+        return blackListOcurrences; */
     }
     
     

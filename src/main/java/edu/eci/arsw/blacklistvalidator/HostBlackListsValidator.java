@@ -19,7 +19,10 @@ import java.util.logging.Logger;
 public class HostBlackListsValidator {
     int[] startValues;
     int[] endValues;
+    int totalThreads;
     HostBlacklistsDataSourceFacade skds;
+
+    ArrayList<MyValidator> myThreads;
 
     private static final int BLACK_LIST_ALARM_COUNT=5;
     
@@ -34,6 +37,7 @@ public class HostBlackListsValidator {
      * @return  Blacklists numbers where the given host's IP address was found.
      */
     public List<Integer> checkHost(String ipaddress, int totalThreads){
+        this.totalThreads = totalThreads;
         
         LinkedList<Integer> blackListOcurrences=new LinkedList<>();
         
@@ -46,9 +50,13 @@ public class HostBlackListsValidator {
         // Calculate the intervals
         this.calculateDivisions(totalThreads);
 
-        return null;
-        
-        /*for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
+        // Create threads
+        this.createThreads(ipaddress);
+
+        // Run threads
+        this.startThreads();
+
+       /* for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
             checkedListsCount++;
             
             if (skds.isInBlackListServer(i, ipaddress)){
@@ -64,11 +72,11 @@ public class HostBlackListsValidator {
         }
         else{
             skds.reportAsTrustworthy(ipaddress);
-        }                
+        }   */
         
-        LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
+       // LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
         
-        return blackListOcurrences; */
+        return blackListOcurrences;
     }
 
     private void calculateDivisions(int totalThreads) {
@@ -96,7 +104,20 @@ public class HostBlackListsValidator {
 
         System.out.println("Total servers: " + this.skds.getRegisteredServersCount());
     }
-    
+
+    private void createThreads(String ipaddress) {
+        myThreads = new ArrayList<>();
+
+        for(int i = 0; i < this.totalThreads; i++){
+            myThreads.add(new MyValidator(this.startValues[i], this.endValues[i], this.skds, BLACK_LIST_ALARM_COUNT, ipaddress));
+        }
+    }
+
+    private void startThreads() {
+        for(MyValidator myValidator : myThreads) {
+            myValidator.startThread();
+        }
+    }
     
     private static final Logger LOG = Logger.getLogger(HostBlackListsValidator.class.getName());
     

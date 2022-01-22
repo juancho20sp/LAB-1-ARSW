@@ -15,15 +15,18 @@ public class MyValidator implements Runnable {
     int alarmCount;
     String ipaddress;
     Thread myThread;
+    HostBlackListsValidator hostBlacklistValidator;
     HostBlacklistsDataSourceFacade skds;
     LinkedList<Integer> blackListOcurrences;
 
-    MyValidator(int start, int end, HostBlacklistsDataSourceFacade skds, int alarmCount, String ipaddress) {
+    MyValidator(int start, int end, HostBlacklistsDataSourceFacade skds, int alarmCount, String ipaddress,
+                HostBlackListsValidator hostBlacklistValidator) {
         this.start = start;
         this.end = end;
         this.skds = skds;
         this.alarmCount = alarmCount;
         this.ipaddress = ipaddress;
+        this.hostBlacklistValidator = hostBlacklistValidator;
 
         this.maliciousOccurrences = 0;
         this.checkedListsCount = 0;
@@ -34,39 +37,31 @@ public class MyValidator implements Runnable {
 
     @Override
     public void run() {
-        //try {
-            for (int i = this.start; this.maliciousOccurrences < this.alarmCount && i <= this.end; i++){
-                this.checkedListsCount += 1;
+        for (int i = this.start; this.maliciousOccurrences < this.alarmCount && i <= this.end; i++){
+            this.checkedListsCount += 1;
 
-                if (skds.isInBlackListServer(i, ipaddress)){
+            if (skds.isInBlackListServer(i, ipaddress)){
 
-                    this.blackListOcurrences.add(i);
+                this.blackListOcurrences.add(i);
 
-                    this.maliciousOccurrences += 1;
-                }
+                this.maliciousOccurrences += 1;
             }
+        }
 
-            if (this.maliciousOccurrences >= this.alarmCount){
-                skds.reportAsNotTrustworthy(ipaddress);
-            } else{
-                skds.reportAsTrustworthy(ipaddress);
-            }
+        if (this.maliciousOccurrences >= this.alarmCount) {
+            this.hostBlacklistValidator.stopThreadsAndMarkAsNotTrustworthy();
+        }
 
-            System.out.println("Blacklist: " + this.blackListOcurrences);
+        LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
 
-            LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
-
-       // }
-        /*catch(InterruptedException e) {
-            System.out.println("Error!");
-        }*/
-
-        System.out.println("Thread end");
+       // System.out.println("Thread end");
     }
 
     public int getMaliciousOccurrences() {
         return this.maliciousOccurrences;
     }
+
+    public  LinkedList<Integer> getBlackListOcurrences() { return this.blackListOcurrences; }
 
     public void startThread(){
         this.myThread.start();
@@ -74,6 +69,14 @@ public class MyValidator implements Runnable {
 
     public void runThread(){
         this.myThread.run();
+    }
+
+    public void joinThread() {
+        try {
+            this.myThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static final Logger LOG = Logger.getLogger(HostBlackListsValidator.class.getName());

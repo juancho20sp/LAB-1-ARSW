@@ -48,9 +48,9 @@ public class MyValidator implements Runnable {
             }
         }
 
-        if (this.maliciousOccurrences >= this.alarmCount) {
+        /* if (this.maliciousOccurrences >= this.alarmCount) {
             this.hostBlacklistValidator.stopThreadsAndMarkAsNotTrustworthy();
-        }
+        } */
 
         LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
     }

@@ -85,11 +85,7 @@ public class HostBlackListsValidator {
         
         LinkedList<Integer> blackListOcurrences=new LinkedList<>();
         
-        int ocurrencesCount=0;
-        
         this.skds=HostBlacklistsDataSourceFacade.getInstance();
-        
-        int checkedListsCount=0;
 
         // Calculate the intervals
         this.calculateDivisions(totalThreads);
@@ -100,6 +96,7 @@ public class HostBlackListsValidator {
         // Run threads
         this.startThreads();
 
+        // Total Occurrences
         int totalOccurrences = this.getBlackListOcurrences().size();
 
         if (totalOccurrences >= BLACK_LIST_ALARM_COUNT){
@@ -183,8 +180,7 @@ public class HostBlackListsValidator {
 
     public void stopThreadsAndMarkAsNotTrustworthy() {
         for (MyValidator myValidator : myThreads){
-
-
+            // TODO
         }
     }
     

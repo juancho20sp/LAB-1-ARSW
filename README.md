@@ -1,13 +1,15 @@
-
 ### Escuela Colombiana de Ingeniería
+
 ### Arquitecturas de Software - ARSW
+
 ## Ejercicio Introducción al paralelismo - Hilos - Caso BlackListSearch
 
-
 ### Dependencias:
-####   Lecturas:
-*  [Threads in Java](http://beginnersbook.com/2013/03/java-threads/)  (Hasta 'Ending Threads')
-*  [Threads vs Processes]( http://cs-fundamentals.com/tech-interview/java/differences-between-thread-and-process-in-java.php)
+
+#### Lecturas:
+
+- [Threads in Java](http://beginnersbook.com/2013/03/java-threads/) (Hasta 'Ending Threads')
+- [Threads vs Processes](http://cs-fundamentals.com/tech-interview/java/differences-between-thread-and-process-in-java.php)
 
 ### Descripción
   Este ejercicio contiene una introducción a la programación con hilos en Java, además de la aplicación a un caso concreto.
@@ -18,9 +20,12 @@
 	Laura Valentina Garcia Leon - 2160640 
 
 
+Este ejercicio contiene una introducción a la programación con hilos en Java, además de la aplicación a un caso concreto.
+
 **Parte I - Introducción a Hilos en Java**
 
 1. De acuerdo con lo revisado en las lecturas, complete las clases CountThread, para que las mismas definan el ciclo de vida de un hilo que imprima por pantalla los números entre A y B.
+
    ![Part1-1](img/Part1-1.png)
 
 2. Complete el método __main__ de la clase CountMainThreads para que:
@@ -36,10 +41,18 @@
         - Se ejecuta el primer hilo, luego el segundo y luego el tercero.
         ![Part1-3](img/Part1-3.png)
 
+2. Complete el método **main** de la clase CountMainThreads para que:
+   1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
+   2. Inicie los tres hilos con 'start()'.
+   3. Ejecute y revise la salida por pantalla.
+      - Se ejecutan los tres hilos al tiempo, el orden de impresión no se puede determinar.
+   4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+      - Se ejecuta el primer hilo, luego el segundo y luego el tercero.
+
+
 **Parte II - Ejercicio Black List Search**
 
-
-Para un software de vigilancia automática de seguridad informática se está desarrollando un componente encargado de validar las direcciones IP en varios miles de listas negras (de host maliciosos) conocidas, y reportar aquellas que existan en al menos cinco de dichas listas. 
+Para un software de vigilancia automática de seguridad informática se está desarrollando un componente encargado de validar las direcciones IP en varios miles de listas negras (de host maliciosos) conocidas, y reportar aquellas que existan en al menos cinco de dichas listas.
 
 Dicho componente está diseñado de acuerdo con el siguiente diagrama, donde:
 
@@ -55,7 +68,6 @@ INFO: HOST 205.24.34.55 Reported as trustworthy
 
 INFO: HOST 205.24.34.55 Reported as NOT trustworthy
 
-
 Al programa de prueba provisto (Main), le toma sólo algunos segundos análizar y reportar la dirección provista (200.24.34.55), ya que la misma está registrada más de cinco veces en los primeros servidores, por lo que no requiere recorrerlos todos. Sin embargo, hacer la búsqueda en casos donde NO hay reportes, o donde los mismos están dispersos en las miles de listas negras, toma bastante tiempo.
 
 Éste, como cualquier método de búsqueda, puede verse como un problema [vergonzosamente paralelo](https://en.wikipedia.org/wiki/Embarrassingly_parallel), ya que no existen dependencias entre una partición del problema y otra.
@@ -66,10 +78,9 @@ Para 'refactorizar' este código, y hacer que explote la capacidad multi-núcleo
 
 2. Agregue al método 'checkHost' un parámetro entero N, correspondiente al número de hilos entre los que se va a realizar la búsqueda (recuerde tener en cuenta si N es par o impar!). Modifique el código de este método para que divida el espacio de búsqueda entre las N partes indicadas, y paralelice la búsqueda a través de N hilos. Haga que dicha función espere hasta que los N hilos terminen de resolver su respectivo sub-problema, agregue las ocurrencias encontradas por cada hilo a la lista que retorna el método, y entonces calcule (sumando el total de ocurrencuas encontradas por cada hilo) si el número de ocurrencias es mayor o igual a _BLACK_LIST_ALARM_COUNT_. Si se da este caso, al final se DEBE reportar el host como confiable o no confiable, y mostrar el listado con los números de las listas negras respectivas. Para lograr este comportamiento de 'espera' revise el método [join](https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html) del API de concurrencia de Java. Tenga también en cuenta:
 
-	* Dentro del método checkHost Se debe mantener el LOG que informa, antes de retornar el resultado, el número de listas negras revisadas VS. el número de listas negras total (línea 60). Se debe garantizar que dicha información sea verídica bajo el nuevo esquema de procesamiento en paralelo planteado.
+   - Dentro del método checkHost Se debe mantener el LOG que informa, antes de retornar el resultado, el número de listas negras revisadas VS. el número de listas negras total (línea 60). Se debe garantizar que dicha información sea verídica bajo el nuevo esquema de procesamiento en paralelo planteado.
 
-	* Se sabe que el HOST 202.24.34.55 está reportado en listas negras de una forma más dispersa, y que el host 212.24.24.55 NO está en ninguna lista negra.
-
+   - Se sabe que el HOST 202.24.34.55 está reportado en listas negras de una forma más dispersa, y que el host 212.24.24.55 NO está en ninguna lista negra.
 
 **Parte II.I Para discutir la próxima clase (NO para implementar aún)**
 
@@ -93,11 +104,13 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
-	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
+   ![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
+
+   - ![](img/PART_4_1.png)
+   - El desempeño de la función, de acuerdo a la imagen anterior tendrá un punto máximo, pues no hay una relación directa de proporcionalidad entre el mejoramiento teórico del desempeño y el número de hilos utilizados.
 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
 
+   - Al usar tantos hilos de procesamiento como núcleos duplicamos el tiempo de respuesta que obtenemos cuando utilizamos el doble de núcleos como total de hilos de procesamiento.
+
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
-
-
-

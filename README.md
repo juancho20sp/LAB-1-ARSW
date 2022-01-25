@@ -44,13 +44,6 @@ Este ejercicio contiene una introducción a la programación con hilos en Java, 
        
         ![Part1-3](img/Part1-3.png)
 
-2. Complete el método **main** de la clase CountMainThreads para que:
-   1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
-   2. Inicie los tres hilos con 'start()'.
-   3. Ejecute y revise la salida por pantalla.
-      - Se ejecutan los tres hilos al tiempo, el orden de impresión no se puede determinar.
-   4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
-      - Se ejecuta el primer hilo, luego el segundo y luego el tercero.
 
 
 **Parte II - Ejercicio Black List Search**
@@ -94,10 +87,26 @@ La estrategia de paralelismo antes implementada es ineficiente en ciertos casos,
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
 
 1. Un solo hilo.
+   ![](img/SINGLE_THREAD.png)    
+
 2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
+   ![](img/THREADS_SAME_AS_CORES.png)
+
 3. Tantos hilos como el doble de núcleos de procesamiento.
+   ![](img/THREADS_AS_DOUBLE_CORES.png)
+
+
 4. 50 hilos.
 5. 100 hilos.
+
+    - Al aumentar la cantidad de hilos, el tiempo de ejecución disminuye, tanto así que no es posible ver dicho tiempo. 
+      Para aproximar el tiempo, usamos la siguiente gráfica.  
+   
+    ![](img/TIME_TABLE.png)
+
+    ![](img/TIME_VS_THREADS_GRAPH.png)
+
+
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 

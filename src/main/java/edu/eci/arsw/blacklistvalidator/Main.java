@@ -46,7 +46,12 @@ public class Main {
          *
          * Usar el doble de núcleos como número de hilos redujo a la mitad el tiempo de ejecución.
          *
-         * De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+         * De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de
+         *
+         * 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas
+         *
+         * (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+         *
          */
 
         System.out.println("The host was found in the following blacklists:"+blackListOcurrences);

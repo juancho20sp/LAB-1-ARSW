@@ -14,6 +14,15 @@ public class CountThread implements Runnable {
     int start;
     int end;
 
+    CountThread(int start, int end) {
+        this.start = start;
+        this.end = end;
+
+        this.myThread = new Thread(this, "Holi crayoli");
+        System.out.println("Thread created: " + myThread);
+
+    }
+
     @Override
     public void run() {
         try {
@@ -26,15 +35,6 @@ public class CountThread implements Runnable {
         }
 
         System.out.println("Thread end");
-    }
-
-    CountThread(int start, int end) {
-        this.start = start;
-        this.end = end;
-
-        this.myThread = new Thread(this, "Holi crayoli");
-        System.out.println("Thread created: " + myThread);
-
     }
 
     public void startThread(){

@@ -13,8 +13,8 @@ public class CountThreadsMain {
     
     public static void main(String a[]){
         // Part 1 - 1
-        // CountThread countThread = new CountThread(0, 5);
-        // countThread.startThread();
+//         CountThread countThread = new CountThread(0, 5);
+//         countThread.startThread();
 
 
         // Part 1 - 2
@@ -23,9 +23,9 @@ public class CountThreadsMain {
         CountThread countThreadThree = new CountThread(200, 299);
 
         // Part 1 - 2
-        /*countThreadOne.startThread();
-        countThreadTwo.startThread();
-        countThreadThree.startThread();*/
+//        countThreadOne.startThread();
+//        countThreadTwo.startThread();
+//        countThreadThree.startThread();
 
         // Part 1 - 3
         countThreadOne.runThread();

@@ -18,6 +18,10 @@
 ### Integrantes
 	Juan David Murillo Giraldo - 2172577
 	Laura Valentina Garcia Leon - 2160640 
+	
+### Repositorio 
+https://github.com/juancho20sp/LAB-1-ARSW
+
 
 
 Este ejercicio contiene una introducción a la programación con hilos en Java, además de la aplicación a un caso concreto.
